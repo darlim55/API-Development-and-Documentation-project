@@ -110,7 +110,7 @@ def create_app(test_config=None):
             selection = Question.query.order_by(Question.id).all()
             totalQuestions = len(selection)
             curreQuestions = paginate_question(request, selection)
-            if (len(currentQuestions) == 0):
+            if (len(curreQuestions) == 0):
                 abort(404)
 
             categories = Category.query.all()
@@ -176,7 +176,7 @@ def create_app(test_config=None):
         quiz = body.get('quiz_category')
         previous = body.get('previous_questions')
         try:
-            if (quizCategory['id'] == 0):
+            if (quiz['id'] == 0):
                 questionsQuery = Question.query.all()
             else:
                 questionsQuery = Question.query.filter_by(
