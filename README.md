@@ -46,4 +46,271 @@ Pay special attention to what data the frontend is expecting from each API respo
 
 By making notes ahead of time, you will practice the core skill of being able to read and understand code and will have a simple plan to follow to build out the endpoints of your backend API.
 
-> View the [Frontend README](./frontend/README.md) for more details.
+### API Reference
+
+## Error Handling
+
+Errors are returned as JSON objects in the following format:
+
+```
+{
+    "success": False, 
+    "error": 400,
+    "message": "bad request"
+}
+```
+
+The API will return three error types when requests fail:
+
+1. 400: Bad Request
+2. 404: Resource Not Found
+3. 422: Unprocessable recource
+4. 500: Internal Server Error
+5. 405: Invalid method!
+
+
+### Endpoints
+
+##### GET '/categories'
+
+General:
+
+ - returns a list of questions from the database
+
+- Results are paginated in groups of 10. Include a request argument to choose page number, starting from 1.
+
+- Sample: curl http://127.0.0.1:5000/books
+
+```
+{
+  "categories": {
+    "1": "Science", 
+    "2": "Art", 
+    "3": "Geography", 
+    "4": "History", 
+    "5": "Entertainment", 
+    "6": "Sports"
+  }, 
+  "success": true
+}
+```
+
+#### DELETE /questions/{id}**
+
+General:
+- Deletes the question of the given ID if it exists. Returns success value.
+
+Sample ```curl -X DELETE http://127.0.0.1:5000/questions/5 ```
+
+```
+{
+  "success": true
+}
+```
+
+##### POST '/questions'
+- Create a new question. The new question must have all four information. 
+- Example: ```curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question": "Who is Jorge Darlim?", "answer": "the current student at Ufam", "difficulty": 1, "category": "5"}' ```
+```
+{
+  "created": 47, 
+  "questions": [
+    {
+      "answer": "Apollo 13", 
+      "category": 5, 
+      "difficulty": 4, 
+      "id": 2, 
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    }, 
+    {
+      "answer": "Tom Cruise", 
+      "category": 5, 
+      "difficulty": 4, 
+      "id": 4, 
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    }, 
+    {
+      "answer": "Edward Scissorhands", 
+      "category": 5, 
+      "difficulty": 3, 
+      "id": 6, 
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    }, 
+    {
+      "answer": "Muhammad Ali", 
+      "category": 4, 
+      "difficulty": 1, 
+      "id": 9, 
+      "question": "What boxer's original name is Cassius Clay?"
+    }, 
+    {
+      "answer": "Brazil", 
+      "category": 6, 
+      "difficulty": 3, 
+      "id": 10, 
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    }, 
+    {
+      "answer": "Uruguay", 
+      "category": 6, 
+      "difficulty": 4, 
+      "id": 11, 
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    }, 
+    {
+      "answer": "George Washington Carver", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 12, 
+      "question": "Who invented Peanut Butter?"
+    }, 
+    {
+      "answer": "Lake Victoria", 
+      "category": 3, 
+      "difficulty": 2, 
+      "id": 13, 
+      "question": "What is the largest lake in Africa?"
+    }, 
+    {
+      "answer": "The Palace of Versailles", 
+      "category": 3, 
+      "difficulty": 3, 
+      "id": 14, 
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    }, 
+    {
+      "answer": "Agra", 
+      "category": 3, 
+      "difficulty": 2, 
+      "id": 15, 
+      "question": "The Taj Mahal is located in which Indian city?"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 42
+}
+
+```
+
+##### POST '/questions/search'
+- User type in a string to search for a question and it will return all the questions that contain this string. 
+- Example: ```curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"searchTerm": "peanut butter"}' ```
+
+```
+{
+  "questions": [
+    {
+      "answer": "George Washington Carver", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 12, 
+      "question": "Who invented Peanut Butter?"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 1
+}
+```
+
+##### GET '/categories/int:id/questions'
+- Get questions only in a specific category
+- Example: ```curl http://127.0.0.1:5000/categories/2/questions```
+
+```
+  "current_category": "Science", 
+  "questions": [
+    {
+      "answer": "The Liver", 
+      "category": 1, 
+      "difficulty": 4, 
+      "id": 20, 
+      "question": "What is the heaviest organ in the human body?"
+    }, 
+    {
+      "answer": "Alexander Fleming", 
+      "category": 1, 
+      "difficulty": 3, 
+      "id": 21, 
+      "question": "Who discovered penicillin?"
+    }, 
+    {
+      "answer": "Blood", 
+      "category": 1, 
+      "difficulty": 4, 
+      "id": 22, 
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    }, 
+    {
+      "answer": "", 
+      "category": 1, 
+      "difficulty": 1, 
+      "id": 24, 
+      "question": ""
+    }, 
+    {
+      "answer": "", 
+      "category": 1, 
+      "difficulty": 1, 
+      "id": 25, 
+      "question": ""
+    }, 
+    {
+      "answer": "", 
+      "category": 1, 
+      "difficulty": 1, 
+      "id": 26, 
+      "question": ""
+    }, 
+    {
+      "answer": "", 
+      "category": 1, 
+      "difficulty": 1, 
+      "id": 27, 
+      "question": ""
+    }, 
+    {
+      "answer": "", 
+      "category": 1, 
+      "difficulty": 1, 
+      "id": 28, 
+      "question": ""
+    }, 
+    {
+      "answer": "2", 
+      "category": 1, 
+      "difficulty": 1, 
+      "id": 29, 
+      "question": "dasda"
+    }, 
+    {
+      "answer": "2", 
+      "category": 1, 
+      "difficulty": 1, 
+      "id": 30, 
+      "question": "dasda"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 11
+  
+```
+
+##### POST '/quizzes'
+- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Example: ```curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"quiz_category":{"type":"Sports","id": "6"}, "previous_questions":[]}'  ```
+```
+{
+  "previousQuestion": [], 
+  "question": {
+    "answer": "Brazil", 
+    "category": 6, 
+    "difficulty": 3, 
+    "id": 10, 
+    "question": "Which is the only team to play in every soccer World Cup tournament?"
+  }, 
+  "success": true
+}
+```
+
+
+
